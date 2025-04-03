@@ -1,0 +1,46 @@
+Tc: O(3N) == O(N)   Sc: O(2N) == O(N)
+
+class Solution {
+public:
+    long long maximumTripletValue(vector<int>& nums) {
+        int n = nums.size();
+        long long res = 0;
+        // int leftMax[n] = {0}, rightMax[n] = {0};
+        vector<int> leftMax(n, 0), rightMax(n, 0);
+        for(int i = 1; i < n; i++) {
+            leftMax[i] = max(leftMax[i - 1], nums[i - 1]);
+            
+        }
+
+        for(int i = n - 2; i>= 0; i--) {
+            rightMax[i] = max(rightMax[i + 1], nums[i + 1]);
+        }
+
+        for(int j = 0; j < n; j++) {
+            res = max(res, (long long)(leftMax[j] - nums[j]) * rightMax[j]);
+        }
+        return res;
+    }
+};
+
+
+
+Tc : O(N)   Sc : O(1)
+
+
+
+class Solution {
+public:
+    long long maximumTripletValue(vector<int>& nums) {
+        int n = nums.size();
+        
+        long long max_i = 0, max_diff = 0, res = 0;
+
+        for(int k = 0; k < n; k++) {
+            res = max(res, max_diff * nums[k]);
+            max_i = max(max_i, (long long)nums[k]);
+            max_diff = max(max_diff, max_i - nums[k]);
+        }
+        return res;
+    }
+};
