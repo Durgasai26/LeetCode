@@ -1,0 +1,109 @@
+class Solution {
+public:
+    // int longestMountain(vector<int>& nums) {
+    //     int n = nums.size(), maxi = 0;
+    //     vector<int> prefix(n, 0), suffix(n, 0);
+                                        // O(n²)    &&      O(n)
+    //     for(int i = 1; i < n; i++) {
+    //         int cnt = 0;
+    //         int l = i;
+    //         while(l >= 1 && nums[l] > nums[l - 1]) {
+    //             cnt++;
+    //             l--;
+    //         }
+    //         prefix[i] = cnt;
+            
+    //         int r = i;
+    //         cnt = 0;
+    //         while(r < n - 1 && nums[r] > nums[r + 1]) {
+    //             cnt++;
+    //             r++;
+    //         } 
+    //         suffix[i] = cnt;
+    //     }
+
+    //     for(int i = 0; i < n; i++) {
+    //         if(prefix[i] != 0 && suffix[i] != 0) {
+    //             maxi = max(maxi, (prefix[i] + suffix[i] + 1));
+    //         }  
+    //         cout << suffix[i] << " ";
+    //     }
+
+    //     return maxi;
+    // }
+
+
+
+    // int longestMountain(vector<int>& nums) {
+    //     int n = nums.size(), maxi = 0;
+                                        // O(N^2)   &&      O(1)
+    //     for(int i = 1; i < n - 1; i++) {
+    //         int l = i , r = i;
+                
+    //         while(l >= 1 && nums[l] > nums[l - 1]) {
+    //             l--;
+    //         }
+    //         while(r < n - 1 && nums[r] > nums[r + 1]) {
+    //             r++;
+    //         }
+    //         if(nums[i] > nums[l] && nums[r] < nums[i]) {
+    //             maxi = max(maxi, r - l + 1);
+    //         }
+    //     } 
+    //     return maxi;
+    // }
+
+
+
+
+    // int longestMountain(vector<int>& nums) {
+    //     int n = nums.size(), maxi = 0;
+    //     vector<int> prefix(n, 0), suffix(n, 0);
+                                    // O(3N)    &&      O(2N)
+    //     for(int i = 1; i < n; i++) {
+    //         if(nums[i] > nums[i - 1]) {
+    //             prefix[i] = prefix[i - 1] + 1;
+    //         }
+    //         cout << prefix[i] << " ";
+    //     }
+    //     cout << endl;
+    //     for(int i = n - 2; i >= 0; i--) {
+    //         if(nums[i] > nums[i + 1]) {
+    //             suffix[i] = suffix[i + 1] + 1;
+    //         }
+    //         cout << suffix[i] << " ";
+    //     }
+
+    //     for(int i = 0; i < n; i++) {
+    //         if(prefix[i] != 0 && suffix[i] != 0) {
+    //             maxi = max(maxi, prefix[i] + suffix[i] + 1);
+    //         }
+    //     }
+    //     return maxi;
+    // }
+
+    int longestMountain(vector<int>& nums) {
+        int n = nums.size();
+        if(n < 3) return 0;
+        int mid = 1, maxi = 0;
+                                // O(N)   &&   O(1)  
+        while(mid < n - 1) {
+            if(nums[mid] > nums[mid - 1] && nums[mid] > nums[mid + 1]) {
+                int l = mid - 1, r = mid + 1;
+                while(l > 0 && nums[l] > nums[l - 1]) {
+                    l--;
+                }
+
+                while(r < n - 1 && nums[r] > nums[r + 1]) {
+                    r++;
+                }
+
+                maxi = max(maxi, r - l + 1);
+            }
+            mid++;
+        }
+        return maxi;
+    }
+
+
+};
