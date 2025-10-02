@@ -1,0 +1,69 @@
+class Solution {
+public:
+    // int find(int stt, int end, vector<string>& words) {
+    //     int tot = 0;
+    //     set<char> st;
+    //     st.insert('a');
+    //     st.insert('e');
+    //     st.insert('i');
+    //     st.insert('o');
+    //     st.insert('u');
+    //     int cnt = 0;
+    //     for(int i = stt; i <= end; i++) {
+    //         string s = words[i];
+    //         int l = s.size();
+    //         if(st.find(s[0]) != st.end() && st.find(s[l - 1]) != st.end()) {
+    //             cnt++;
+    //         }
+    //     }
+    //     return cnt;
+    // }
+
+    // vector<int> vowelStrings(vector<string>& words, vector<vector<int>>& queries) {
+    //     int n = words.size();
+    //     int m = queries.size();
+    //     vector<int> result;
+
+    //     for(int i = 0; i < m; i++) {
+    //         int st = queries[i][0];
+    //         int end = queries[i][1];
+
+    //         int tot = find(st, end, words);
+
+    //         result.push_back(tot);
+    //     }
+    //     return result;
+    // }  
+
+    bool isVowel(char ch) {
+        if(ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') {
+            return true;
+        }
+        return false;
+    }
+
+    vector<int> vowelStrings(vector<string>& words, vector<vector<int>>& queries) {
+        int n = words.size();
+        int m = queries.size();
+        vector<int> result(m);
+        vector<int> currSum(n, 0);
+        int sum = 0;
+
+        for(int i = 0;i < n; i++) {
+            string s = words[i];
+            int l = s.size();
+            if(isVowel(s[0]) && isVowel(s[l - 1])) {
+                sum++;
+            }
+            currSum[i] = sum;
+        }
+
+        for(int i = 0; i < m; i++) {
+            int st = queries[i][0];
+            int end = queries[i][1];
+
+            result[i] = currSum[end] - ((st > 0) ? currSum[st - 1] : 0);
+        }
+        return result;
+    } 
+};
