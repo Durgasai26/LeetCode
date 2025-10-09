@@ -1,0 +1,39 @@
+class Solution {
+public:
+        // O(n^2)   &&      O(1)
+    // int maxWidthRamp(vector<int>& nums) {
+    //     int n = nums.size();
+    //     int ramp = 0;
+
+    //     for(int i = 0; i < n; i++) {
+    //         for(int j = n - 1; j > i; j--) {
+    //             if(nums[i] <= nums[j]) {
+    //                 ramp = max(ramp, j - i);
+    //                 break;
+    //             }
+    //         }
+    //     }
+    //     return ramp;
+    // }
+        // O(2n) && O(n)
+    int maxWidthRamp(vector<int>& nums) {
+        int n = nums.size();
+        int l = 0, r = 0, ramp = 0;
+        vector<int> rightMax(n, 0);
+        rightMax[n - 1] = nums[n - 1];
+
+        for(int i = n - 2; i >= 0; i--) {
+            rightMax[i] = max(rightMax[i + 1], nums[i]);
+        }
+        
+        while(r < n) {
+            while(l < r && nums[l] > rightMax[r]) {
+                l++;
+            }
+
+            ramp = max(ramp, r - l);
+            r++;
+        }
+        return ramp;
+    }
+};
