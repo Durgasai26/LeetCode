@@ -1,0 +1,81 @@
+class Solution {
+public:
+      O(n * k log k)      O(n * k log k)
+    // bool isAnagram(string s1, string s2) {
+    //     map<char, int> mp1;
+    //     map<char, int> mp2;
+    //     int n = s1.size();
+    //     int m = s2.size();
+    //     for(int i = 0; i < n; i++) {
+    //         mp1[s1[i]]++;
+    //     }
+    //     for(int i = 0; i < m; i++) {
+    //         mp2[s2[i]]++;
+    //     }
+    //     return (mp1 == mp2);
+    // }
+    // vector<string> removeAnagrams(vector<string>& words) {
+    //     int n = words.size();
+    //     vector<string> res;
+    //     res.push_back(words[0]);
+    //     for(int i = 1; i < n; i++) {
+    //         if(!isAnagram(words[i], res.back())) {
+    //             res.push_back(words[i]);
+    //         }
+    //     }
+    //     return res;
+    // }
+
+    // bool isAnagram(string s1, string s2) {
+    //     if(s1.size() != s2.size()) return false;
+
+    //     multiset<char> st;
+    //     for(char c : s1) {
+    //         st.insert(c);
+    //     }
+
+    //     for(char c : s2) {
+    //         auto it = st.find(c);
+    //         if(it == st.end()) return false;
+    //         st.erase(it);
+    //     }
+
+    //     return st.empty();
+    // }
+
+    // vector<string> removeAnagrams(vector<string>& words) {
+    //     int n = words.size();
+    //     vector<string> res;
+
+    //     res.push_back(words[0]);
+    //     for(int i = 1; i < n; i++) {
+    //         if(!isAnagram(words[i], res.back())) {
+    //             res.push_back(words[i]);
+    //         }
+    //     }
+    //     return res;
+    // }
+
+//    O(n * k log k)      O(1)
+
+    bool isAnagram(string s1, string s2) {
+        sort(s1.begin(), s1.end());
+        sort(s2.begin(), s2.end());
+
+        return s1 == s2;
+    }
+
+    vector<string> removeAnagrams(vector<string>& words) {
+        int n = words.size();
+        vector<string> res;
+
+        res.push_back(words[0]);
+
+        for(int i = 1; i < n; i++) {
+            if(!isAnagram(words[i], res.back())) {
+                res.push_back(words[i]);
+            }
+        }
+        return res;
+    }
+};
