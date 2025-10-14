@@ -1,0 +1,41 @@
+class Solution {
+public:
+        O(n * 2k)        O(1)
+    // bool check(int ind, vector<int>& nums, int k) {
+    //     int n = nums.size();
+    //     for(int i = ind; i < ind + k - 1; i++) {
+    //         if(i + 1 >= n || nums[i] >= nums[i + 1]) return false;
+    //     }
+
+    //     for(int i = ind + k; i < ind + 2 * k - 1; i++) {
+    //         if(i + 1 >= n || nums[i] >= nums[i + 1]) return false;
+    //     }
+    //     return true;
+    // }
+
+        O(n * k)        O(1)
+
+    bool check(int ind, vector<int>& nums, int k) {
+        int n = nums.size();
+        int j = ind + k;
+        for(int i = ind; i < ind + k - 1; i++) {
+            if(i + 1 >= n || nums[i] >= nums[i + 1]) return false;
+            if(j < ind + 2 * k - 1) {
+                if(j + 1 >= n || nums[j] >= nums[j + 1]) return false;
+            }
+            j++;
+        }
+        return true;
+    }
+    
+    bool hasIncreasingSubarrays(vector<int>& nums, int k) {
+        int n = nums.size();
+
+        for(int i = 0; i <= n - 2 * k; i++) {
+            if(check(i, nums, k)) return true;
+        }
+        return false;
+    }
+
+     
+};
