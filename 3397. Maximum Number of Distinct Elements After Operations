@@ -1,0 +1,46 @@
+class Solution {
+public:
+
+    // bool check(int ind, vector<int>& nums, int k, unordered_set<int>& st)  {
+    //     for(int i = nums[ind] - k; i <= nums[ind] + k; i++) {
+    //         if(st.find(i) == st.end()) {
+    //             st.insert(i);
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
+
+    // int maxDistinctElements(vector<int>& nums, int k) {
+    //     int n = nums.size();
+    //     unordered_set<int> st;
+
+    //     sort(nums.begin(), nums.end());
+
+    //     for(int i = 0; i < n; i++) {
+    //         check(i, nums, k, st);
+    //     }
+
+    //     return st.size();
+    // }
+
+     int maxDistinctElements(vector<int>& nums, int k) {
+        int n = nums.size();
+
+        int prev = -1e8, cnt = 0;
+        sort(nums.begin(), nums.end());
+
+        for(int i = 0; i < n; i++) {
+            int minval = nums[i] - k;
+
+            if(prev < minval) {
+                prev = minval;
+                cnt++;
+            }else if(prev < nums[i] + k) {
+                prev = prev + 1;
+                cnt++;
+            }
+        }
+        return cnt;
+     }
+};
