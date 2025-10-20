@@ -1,0 +1,33 @@
+class Solution {
+public:
+    // O(n log m)   O(4)
+    // int finalValueAfterOperations(vector<string>& operations) {
+    //     unordered_map<string, int> mp;
+    //     mp.insert({"--X", -1});
+    //     mp.insert({"++X", 1});
+    //     mp.insert({"X--", -1});
+    //     mp.insert({"X++", 1});
+
+    //     int n = operations.size(), val = 0;
+
+    //     for(int i = 0; i < n; i++) {
+    //         val += mp[operations[i]];
+    //     }
+    //     return val;
+    // }
+
+    O(N)    O(1)
+
+    int finalValueAfterOperations(vector<string>& operations) {
+        int n = operations.size();
+        int val = 0;
+        for(int i = 0; i < n; i++) {
+            if(operations[i] == "X++" || operations[i] == "++X") {
+                val += 1;
+            }else{
+                val -= 1;
+            }
+        }
+        return val;
+    }
+};
