@@ -1,0 +1,72 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    O(Mlog M + K * N)       O(Log M)
+    // ListNode* deleteNode(ListNode* head, int value) {
+    //     ListNode* temp = head;
+
+    //     while(temp != nullptr && temp->val == value) {
+    //         temp = temp->next;
+    //         head = temp;
+    //     }
+
+    //     while(temp->next != NULL && temp->next != NULL) {
+    //         if(temp->next->val == value) {
+    //             ListNode* deletenode = temp->next;
+    //             temp->next = temp->next->next;
+    //             delete(deletenode);
+    //         }else{
+    //             temp = temp->next;
+    //         }
+    //     }
+    //     return head;
+    // }
+    // ListNode* modifiedList(vector<int>& nums, ListNode* head) {
+    //     if(head == NULL) return head;
+
+    //     sort(nums.begin(), nums.end());
+
+    //     head = deleteNode(head, nums[0]);
+    //     for(int i = 1; i < nums.size(); i++) {
+    //        if(nums[i - 1] == nums[i]) {
+    //         continue;
+    //        }else{
+    //          head = deleteNode(head, nums[i]);
+    //        }
+    //     }
+    //     return head;
+    // }
+
+    O(M + N)    O(M)
+    ListNode* modifiedList(vector<int>& nums, ListNode* head) {
+        unordered_set<int> st(nums.begin(), nums.end());
+
+        ListNode* temp = head;
+
+        while(temp != NULL && st.find(temp->val) != st.end()) {
+            temp = temp->next;
+            head = temp;
+        } 
+
+        while(temp != NULL && temp->next != NULL) {
+            if(temp->next != NULL && st.find(temp->next->val) != st.end()) {
+                ListNode* deletenode = temp->next;
+                temp->next = temp->next->next;
+                delete(deletenode);
+            }else{
+                temp = temp->next;
+            }
+        }
+        return head;
+    }
+
+};
