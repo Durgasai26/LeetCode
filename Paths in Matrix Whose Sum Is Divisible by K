@@ -1,0 +1,60 @@
+class Solution {
+public:
+    int f(int i, int j, vector<vector<int>>& grid, int rem, int k, vector<vector<vector<int>>> &dp) {
+        if(i < 0 || j < 0) {
+            return 0;
+        }
+
+        rem = (rem + grid[i][j]) % k;
+
+        if(dp[i][j][rem] != -1) {
+            return dp[i][j][rem];
+        }
+        
+        if(i == 0 && j == 0) {
+            return (rem == 0) ? 1 : 0;
+        }
+
+        int left = f(i - 1, j, grid, rem, k, dp);
+        int up = f(i, j - 1, grid, rem, k, dp);
+
+        const int MOD = 1e9 + 7;
+        return dp[i][j][rem] = (left + up) % MOD;
+    }
+
+    int tabulation(vector<vector<int>>& grid, int k) {
+        int n = grid.size(), m = grid[0].size();
+        const int MOD = 1e9 + 7;
+        vector<vector<vector<int>>> dp(n, vector<vector<int>>(m, vector<int>(k, 0)));
+
+        dp[0][0][grid[0][0] % k] = 1;
+
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                for(int rem = 0; rem < k; rem++) {
+                    int val = grid[i][j];
+                    int newRem = (rem + val) % k;
+
+                    if(i > 0) {
+                        dp[i][j][newRem] = (dp[i - 1][j][rem] + dp[i][j][newRem]) % MOD;
+                    }
+                    if(j > 0) {
+                        dp[i][j][newRem] = (dp[i][j - 1][rem] + dp[i][j][newRem]) % MOD;
+                    }
+                }
+            }
+        }
+        return dp[n - 1][m - 1][0];
+    }
+
+
+    int numberOfPaths(vector<vector<int>>& grid, int k) {
+        int n = grid.size(), m = grid[0].size();
+
+        // vector<vector<vector<int>>> dp(n, vector<vector<int>>(m, vector<int>(k, -1)));
+
+        // return f(n - 1, m - 1, grid, 0, k, dp);
+
+        return tabulation(grid, k);
+    }
+};
