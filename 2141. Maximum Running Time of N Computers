@@ -1,0 +1,31 @@
+class Solution {
+public:
+    long long maxRunTime(int n, vector<int>& batteries) {
+        long long total = 0;
+        int size = batteries.size();
+
+        for(auto & it : batteries) {
+            total += it;
+        }
+
+        long long left = 0, right = total / n;
+
+        while(left < right) {
+            long long mid = (left + right + 1) / 2;
+
+            long long needed = mid * n;
+            long long have = 0;
+
+            for(long long it : batteries) {
+                have += min(it, mid);
+            }
+
+            if(have >= needed) {
+                left = mid;
+            }else{
+                right = mid - 1;
+            }
+        }
+        return left;
+    }
+};
