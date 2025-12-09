@@ -1,0 +1,63 @@
+class Solution {
+public:
+    int mod = 1e9 + 7;
+    // int specialTriplets(vector<int>& nums) {
+    //     int n = nums.size();
+    //     int cnt = 0;
+    //     for(int i = 0; i < n; i++) {
+    //         for(int j = i + 1; j < n; j++) {
+    //             for(int k = j + 1; k < n; k++) {
+    //                 if(nums[i] == 2 * nums[j] && nums[k] == nums[j] * 2) {
+    //                     cnt++;
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     return cnt % mod;
+    // }
+
+    // int specialTriplets(vector<int>& nums) {
+    //     int n = nums.size();
+    //     int cnt = 0;
+    //     const long long mod = 1e9 + 7;
+    //     unordered_map<int, int> left;
+    //     unordered_map<int, int> right;
+
+    //     for(int i = 0; i < n; i++) {
+    //         right[nums[i]]++;
+    //     }
+
+    //     for(int i = 0; i < n; i++) {
+    //         int x = nums[i];
+
+    //         right[x]--;
+
+    //         int leftCnt = left[x*2];
+    //         int rightCnt = right[x*2];
+
+    //         cnt = (cnt + (leftCnt % mod) * (rightCnt % mod)) % mod;
+    //         left[x]++;
+    //     }
+    //     return cnt;
+    // }
+
+    int specialTriplets(vector<int>& nums) {
+        int n = nums.size();
+        int cnt = 0;
+
+        unordered_map<int, int> valid_i;
+        unordered_map<int, int> valid_j;
+
+        for(int &num : nums) {
+
+            if(num % 2 == 0) {
+                cnt = (cnt + valid_j[num / 2]) % mod;
+            }
+
+            valid_j[num] = (valid_j[num] + valid_i[num * 2]) % mod;
+
+            valid_i[num]++;
+        }
+        return cnt;
+    }
+};
