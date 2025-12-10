@@ -1,0 +1,64 @@
+class Solution {
+public:
+    int isValid(vector<int>& weights, int days, int capacity) {
+        int useDays = 1;
+        int current = 0;
+
+        for(int w : weights) {
+            if(w > capacity) return false;
+
+            if(current + w <= capacity) {
+                current += w;
+            }else{
+                useDays++;
+                current = w;
+                if(useDays > days) return false;
+            }
+        }
+        return true;
+    }
+    // int shipWithinDays(vector<int>& weights, int days) {
+    //     int n = weights.size();
+
+    //     int totalWeight = 0;
+    //     int maxEle = -1;
+
+    //     for(int x : weights) {
+    //         totalWeight += x;
+    //         maxEle = max(maxEle, x);
+    //     }
+
+    //     for(int i = maxEle; i <= totalWeight; i++) {
+    //         if(isValid(weights, days, i)) {
+    //             return i;
+    //         }
+    //     }
+    //     return -1;
+    // }
+
+    int shipWithinDays(vector<int>& weights, int days) {
+        int n = weights.size(), ans = -1;
+
+        int totalWeight = 0;
+        int maxEle = -1;
+
+        for(int x : weights) {
+            totalWeight += x;
+            maxEle = max(maxEle, x);
+        }
+
+        int low = maxEle, high = totalWeight;
+
+        while(low <= high) {
+            int mid = low + (high - low) / 2;
+
+            if(isValid(weights, days, mid)) {
+                ans = mid;
+                high = mid - 1;
+            }else{
+                low = mid + 1;
+            }
+        }
+        return ans;
+    }
+};
