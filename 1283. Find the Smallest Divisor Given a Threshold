@@ -1,0 +1,44 @@
+class Solution {
+public:
+    bool isValid(vector<int>& nums, int div, int threshold) {
+        int total = 0;
+
+        for(int &num : nums) {
+            total += (num + div - 1) / div;
+            if(total > threshold) return false;
+        }
+
+        return true;
+    }
+    // int smallestDivisor(vector<int>& nums, int threshold) {
+    //     int n = nums.size();
+    //     int ans = -1;
+    //     int minEle = *min_element(nums.begin(), nums.end());
+    //     int maxEle = *max_element(nums.begin(), nums.end());
+
+    //     for(int i = 1; i <= maxEle; i++) {
+    //         if(isValid(nums, i, threshold)) {
+    //             return i;
+    //         }
+    //     }
+    //     return -1;
+    // }
+
+    int smallestDivisor(vector<int>& nums, int threshold) {
+        int n = nums.size(), ans = -1;
+
+        int low = 1, high = *max_element(nums.begin(), nums.end());
+
+        while(low <= high) {
+            int mid = low + (high - low) / 2;
+
+            if(isValid(nums, mid, threshold)) {
+                ans = mid;
+                high = mid - 1;
+            }else{
+                low = mid + 1;
+            }
+        }
+        return ans;
+    }
+};
