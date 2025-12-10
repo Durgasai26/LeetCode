@@ -1,0 +1,87 @@
+class Solution {
+public:
+    // bool isValid(vector<int>& bloomDay, int m, int k, int day) {
+    //     int n = bloomDay.size();
+    //     int cnt = 0;
+    //     int b = 0;
+    //     for(int i = 0; i < n; i++) {
+    //         if(bloomDay[i] <= day) {
+    //             cnt++;
+    //         }else{
+    //             cnt = 0;
+    //         }
+
+    //         if(cnt == k) {
+    //             b++;
+    //             cnt = 0;
+    //         }
+    //         if(b == m) return true;
+    //     }
+
+    //     return (b == m);
+    // }
+    // int minDays(vector<int>& bloomDay, int m, int k) {
+    //     int n = bloomDay.size();
+
+    //     int maxEle = *max_element(bloomDay.begin(), bloomDay.end());
+    //     int minEle = *min_element(bloomDay.begin(), bloomDay.end());
+
+    //     for(int day = minEle; day <= maxEle; day++) {
+    //         if(isValid(bloomDay, m, k, day)) {
+    //             return day;
+    //         }
+    //     }
+    //     return -1;
+    // }
+
+    bool isValid(vector<int>& bloomDay, int m, int k, int day) {
+        int n = bloomDay.size(), bouquets = 0, cnt = 0;
+
+        for(int i = 0; i < n; i++) {
+            if(bloomDay[i] <= day) {
+                cnt++;
+            }else{
+                cnt = 0;
+            }
+
+            if(cnt == k) {
+                bouquets++;
+                cnt = 0;
+            }
+            if(bouquets == m) return true;
+        }
+        return (bouquets == m);
+    }
+
+    int minDays(vector<int>& bloomDay, int m, int k) {
+        int n = bloomDay.size();
+
+        long long totalNeeded = (long long) m * k;
+        if(totalNeeded > n) return -1;
+
+        // int maxEle = *max_element(bloomDay.begin(), bloomDay.end());
+        // int minEle = *min_element(bloomDay.begin(), bloomDay.end());
+
+        int maxEle = -1;
+        int minEle = 1e9;
+
+        for(int x : bloomDay) {
+            maxEle = max(maxEle, x);
+            minEle = min(minEle, x);
+        }
+
+        int low = minEle, high = maxEle, miniDay = -1;
+
+        while(low <= high) {
+            int mid = low + (high - low) / 2;
+
+            if(isValid(bloomDay, m, k, mid)) {
+                miniDay = mid;
+                high = mid - 1;
+            }else{
+                low = mid + 1;
+            }
+        }
+        return miniDay;
+    }
+};
