@@ -1,0 +1,50 @@
+class Solution {
+public:
+    // int countCompleteSubarrays(vector<int>& nums) {
+    //     int n = nums.size();
+    //     set<int> st;
+    //     for(int i = 0; i < n; i++) {
+    //         st.insert(nums[i]);
+    //     }
+    //     int cnt = 0;
+    //     for(int i = 0; i < n; i++) {
+    //         set<int> st2;
+    //         for(int j = i; j < n; j++) {
+    //             st2.insert(nums[j]);
+    //             if(st2.size() == st.size()) {
+    //                 cnt++;
+    //             }
+    //         }
+    //     }
+    //     return cnt;
+    // }
+
+    int countCompleteSubarrays(vector<int>& nums) {
+        int n = nums.size();
+        unordered_map<int, int> mp;
+        for(int i = 0; i < n; i++) {
+            mp[nums[i]]++;
+        }
+        int unique_elements = mp.size();
+        mp.clear();
+        int cnt = 0;
+
+        int l = 0, r = 0;
+
+        while(r < n) {
+            mp[nums[r]]++;
+
+            while(mp.size() == unique_elements) {
+                cnt += n - r;
+                mp[nums[l]]--;
+                if(mp[nums[l]] == 0) {
+                    mp.erase(nums[l]);
+                }
+                l++;
+            }
+            r++;
+        }
+
+        return cnt;
+    }
+};
